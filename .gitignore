@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Snakemake
+.snakemake/
+
+# Local clone of upstream data; pinned copies live in data/raw
+/beijing-subway-schedule/
+/data/raw/*
+!/data/raw/MANIFEST.tsv
+/data/processed/

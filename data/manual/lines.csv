@@ -1,0 +1,29 @@
+line_id,line_name_zh,line_name_en,topology,fare_group,fare_source
+L1,1号线八通线,Line 1 / Batong line,path,network,
+L2,2号线,Line 2,loop,network,
+L3,3号线,Line 3,path,network,
+L4,4号线大兴线,Line 4 / Daxing line,path,network,
+L5,5号线,Line 5,path,network,
+L6,6号线,Line 6,path,network,
+L7,7号线,Line 7,path,network,
+L8,8号线,Line 8,path,network,
+L9,9号线,Line 9,path,network,
+L10,10号线,Line 10,loop,network,
+L11,11号线,Line 11,path,network,
+L12,12号线,Line 12,path,network,
+L13,13号线,Line 13,path,network,
+L14,14号线,Line 14,path,network,
+L15,15号线,Line 15,path,network,
+L16,16号线,Line 16,path,network,
+L17,17号线,Line 17,path,network,
+L18,18号线,Line 18,path,network,
+L19,19号线,Line 19,path,network,
+YZ,亦庄线,Yizhuang line,path,network,
+FS,房山线,Fangshan line,path,network,
+S1,S1线,Line S1,path,network,
+CP,昌平线,Changping line,path,network,
+YF,燕房线,Yanfang line,path,network,
+XJ,西郊线,Xijiao line,path,separate,https://en.wikipedia.org/wiki/Beijing_Subway#Fares
+T1,亦庄T1线,Yizhuang T1 line,path,separate,https://en.wikipedia.org/wiki/Beijing_Subway#Fares
+CAE,首都机场线,Capital Airport Express,lasso,separate,https://en.wikipedia.org/wiki/Beijing_Subway#Fares
+DAE,大兴机场线,Daxing Airport Express,path,separate,https://en.wikipedia.org/wiki/Beijing_Subway#Fares

@@ -1,0 +1,8 @@
+name: subway-challenge
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.12.16
+  - snakemake-minimal=9.26.1

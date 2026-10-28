@@ -1,0 +1,3 @@
+line_id,u_zh,v_zh,minutes,source
+L2,积水潭,西直门,3,https://github.com/Mick235711/Beijing-Subway-Tools/blob/51fc9c9732d8dcc440a0b82cfcc9f6fbdf813470/data/beijing/line2.json5 (loop_last_segment)
+L10,成寿寺,宋家庄,2,https://github.com/Mick235711/Beijing-Subway-Tools/blob/51fc9c9732d8dcc440a0b82cfcc9f6fbdf813470/data/beijing/line10.json5 (loop_last_segment)
