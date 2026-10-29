@@ -6,3 +6,7 @@ channels:
 dependencies:
   - python=3.12.16
   - snakemake-minimal=9.26.1
+  # Only the explore_* scripts use these; model A stays standard library.
+  - numpy=2.4.6
+  - pandas=3.0.6
+  - matplotlib-base=3.10.9

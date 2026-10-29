@@ -9,8 +9,9 @@
 ## Sources
 
 - `raw/beijing-subway-schedule/` is the weekday and weekend train schedule from [BoyInTheSun/beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule) at commit `11aaff2` (2026-01-13). It is CC BY-SA 4.0 (see its `LICENSE`), so derived data in `processed/` carries the same license. It is built from [Mick235711/Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools).
-- `raw/beijing-subway-tools/` is the per-line timetables and `metadata.json5` from the Beijing data directory of [Mick235711/Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools) at commit `51fc9c9` (2026-10-27), MIT licensed. It has per-station timetables and transfer walk times (`metadata.json5`). Model A doesn't use it yet.
-- `manual/lines.csv` gives line codes, English names, expected shape and fare group. The four separately fared lines (both airport expresses, Xijiao, Yizhuang T1) come from the Fares section of the English Wikipedia article on the Beijing Subway: transfers to or from them require a new fare, so a single-ticket run cannot use them.
+- `raw/beijing-subway-tools/` is the per-line timetables, `metadata.json5` and `maps/official.json5` from the Beijing data directory of [Mick235711/Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools) at commit `51fc9c9` (2026-10-27), MIT licensed. It has per-station timetables, transfer walk times (`metadata.json5`) and station positions on the official schematic map (`maps/official.json5`, used to draw figures). Model A doesn't use it yet. Its map is newer than the schedule snapshot and lacks two stations the snapshot has (八角游乐园 on Line 1, 陶然桥 on Line 14); figures place them halfway between their neighbours.
+- `raw/noto-cjk/` is Noto Sans SC Regular and Bold (static, Simplified Chinese subset) from [notofonts/noto-cjk](https://github.com/notofonts/noto-cjk) at commit `f8d1575`, SIL Open Font License 1.1 (see its `LICENSE`). Every figure uses it, so station names render the same on any machine.
+- `manual/lines.csv` gives line codes, English names, expected shape and fare group. The four separately fared lines (both airport expresses, Xijiao, Yizhuang T1) come from the Fares section of the English Wikipedia article on the Beijing Subway: transfers to or from them require a new fare. The challenge only forbids leaving the metro system, and buying another ticket at a transfer is allowed, so these lines count as part of the network. The `fare_group` column (and model A's `on_network_fare`) still records them for reference; nothing filters on it.
 - `manual/loop_closures.csv` gives the run time of the one segment of Lines 2 and 10 that no train in the snapshot crosses (the source splits each lap there). Values are `loop_last_segment` from Beijing-Subway-Tools at commit `51fc9c9`.
 
 ## Model A (`processed/model_a/`)
@@ -27,3 +28,14 @@ Standard library only, Python 3.10+. Output is sorted and byte-identical across 
 - `build_report.md`: shape checks per line, totals, widest run-time spreads, and problems found.
 
 How the schedule's special entries are handled: Line 6 overtaking trains pass some stations without stopping (`(07:42`). Those hops are not used for timing or adjacency. Trains held for an overtake have two entries at one station (`07:40-` then `07:43`). The arrival is used for the inbound hop and the departure for the outbound hop, so the wait is left out.
+
+## Timetable exploration (`processed/explore/`)
+
+Built by the `explore_*` rules (`snakemake -c4 explore`). Uses pandas and matplotlib (in `environment.yml`). Read `report.md`, which stitches together the `summary.md` of each step.
+
+- `trips.csv`, `stops.csv`: the weekday schedule flattened, one row per trip and one per trip and stop. Times are minutes after midnight of the service day (a 00:20 stop is 1460). `kind` is `full` (terminus to terminus), `short` (anything else) or `loop` (Lines 2 and 10, which the source cuts into one trip per lap). Each stop has one time, `time_min`: the source is built from station arrival timetables (到站时刻表), so it is an arrival. The only departures in the data are Line 6 trains held for an overtake, where `hold_min` is the wait; a passed station has `passed = 1`. So run times are arrival to arrival. `block` chains trips one train runs back to back (an estimate, see `scripts/explore_trips.py`).
+- `service/`: trains en route per minute (from arriving at a trip's first stop to arriving at its last), per line and network-wide, and each line's rush-hour to midday ratio on the map.
+- `headways/`: how often trains come, per line, station, direction and time of day: headway strips per line (`strips/`), frequency maps at four times of day, expected and worst-case waits.
+- `short_turns/`: every trip pattern (origin→destination) with counts and times; patterns running at least 6 times a day outside the edges of the day are short-turn services. The rest are positioning trips (a train entering or leaving service), explained in the summary. A map shows the share of each line's trains over each stretch of track.
+- `express/`: Line 6 express trips, the stations they pass, time saved, and the regular trains held for them.
+- `runtimes/`: arrival-to-arrival time between adjacent stops per direction and time of day, and whole-line trip times.
